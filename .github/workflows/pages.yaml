@@ -1,0 +1,29 @@
+name: Github pages
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.17.5'
+      
+      - run: make build
+
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v1
+        if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}
+        with:
+          target_branch: gh-pages
+          build_dir: output
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
