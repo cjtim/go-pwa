@@ -15,7 +15,7 @@ func main() {
 	err := app.GenerateStaticWebsite(".", &app.Handler{
 		Name:        "Go Progressive web app static!",
 		Description: "An Hello World! example",
-		Resources:   app.GitHubPages("go-pwa"),
+		Resources:   app.CustomProvider("go-pwa", "go-pwa"),
 	})
 
 	if err != nil {
